@@ -1,0 +1,26 @@
+{
+  "name": "slot-machine-app",
+  "version": "1.0.0",
+  "description": "simple slot machine app",
+  "main": "app.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cecilereine/spiralworks-slotmachine.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cecilereine/spiralworks-slotmachine/issues"
+  },
+  "homepage": "https://github.com/cecilereine/spiralworks-slotmachine#readme",
+  "devDependencies": {
+    "webpack": "^4.5.0",
+    "webpack-cli": "^2.0.14"
+  },
+  "dependencies": {
+    "pixi.js": "^4.7.3"
+  }
+}
