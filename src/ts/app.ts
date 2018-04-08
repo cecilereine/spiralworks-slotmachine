@@ -1,7 +1,7 @@
-
 import * as PIXI from 'pixi.js'
 
 import {ICON_LIST, Slot, canvasWidthHeight} from "./slot.js";
+import {Button} from "./button.js";
 
 PIXI.loader.add(ICON_LIST).load(setup);
 
@@ -10,6 +10,7 @@ document.body.appendChild(renderer.view);
 const stage = new PIXI.Container();
 
 let slots: Array<Slot> = new Array(0);
+let button;
 
 function setup() {
 
@@ -28,6 +29,8 @@ function setup() {
 		yPos += 56;
 	}
 	
+	button = new Button("SPIN", canvasWidthHeight / 2, canvasWidthHeight - 100, stage);
+
 	requestAnimationFrame(draw);
 }
 

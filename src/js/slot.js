@@ -23,10 +23,10 @@ var Slot = /** @class */ (function () {
         var _this = this;
         this.sprite = new PIXI.Sprite();
         this.textureCounter = 0;
+        this.updateId = 0;
         this.updateTexture = function () {
             var min = 0;
             var max = exports.ICON_LIST.length - 1;
-            console.log((exports.ICON_LIST.length));
             _this.textureCounter = Math.floor(Math.random() * (max)) + min;
             _this.sprite.texture = PIXI.loader.resources[exports.ICON_LIST[_this.textureCounter]].texture;
             //if(this.textureCounter === ICON_LIST.length) this.textureCounter = 0;
@@ -43,6 +43,7 @@ var Slot = /** @class */ (function () {
         this.sprite.y = exports.canvasWidthHeight / 2;
     };
     Slot.prototype.spinSlot = function () {
+        this.updateId = setInterval(this.updateTexture, spinSpeed);
         //this.updateInterval = setInterval(this.updateTexture, spinSpeed);
     };
     Slot.prototype.updateSlotPosition = function (x, y) {

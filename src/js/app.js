@@ -9,11 +9,13 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var PIXI = __importStar(require("pixi.js"));
 var slot_js_1 = require("./slot.js");
+var button_js_1 = require("./button.js");
 PIXI.loader.add(slot_js_1.ICON_LIST).load(setup);
 var renderer = PIXI.autoDetectRenderer(slot_js_1.canvasWidthHeight, slot_js_1.canvasWidthHeight);
 document.body.appendChild(renderer.view);
 var stage = new PIXI.Container();
 var slots = new Array(0);
+var button;
 function setup() {
     var xPos = (slot_js_1.canvasWidthHeight / 2) - 56;
     var yPos = (slot_js_1.canvasWidthHeight / 2) - 56;
@@ -27,6 +29,7 @@ function setup() {
         }
         yPos += 56;
     }
+    button = new button_js_1.Button("SPIN", slot_js_1.canvasWidthHeight / 2, slot_js_1.canvasWidthHeight - 100, stage);
     requestAnimationFrame(draw);
 }
 function draw() {

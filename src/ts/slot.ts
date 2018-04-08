@@ -18,14 +18,13 @@ export class Slot {
 
 	private textureCounter: number = 0;
 
+	private updateId = 0;
+
 	private updateTexture = () => {
 		let min: number = 0;
 		let max: number = ICON_LIST.length - 1;
-		
-		console.log((ICON_LIST.length));
 
 		this.textureCounter = Math.floor(Math.random() * (max)) + min;
-
 		
 		this.sprite.texture = PIXI.loader.resources[ICON_LIST[this.textureCounter]].texture;
 		//if(this.textureCounter === ICON_LIST.length) this.textureCounter = 0;
@@ -38,6 +37,7 @@ export class Slot {
 	}
 
 	spinSlot() {
+		this.updateId = setInterval(this.updateTexture, spinSpeed);
 		//this.updateInterval = setInterval(this.updateTexture, spinSpeed);
 	}	
 
