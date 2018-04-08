@@ -11,44 +11,46 @@ var PIXI = __importStar(require("pixi.js"));
 exports.canvasWidthHeight = 512;
 exports.ICON_LIST = [
     '../resources/apple.png',
-    '../resources/bacon.png',
     '../resources/bananas.png',
     '../resources/chocolate.png',
     '../resources/french-fries.png',
+    '../resources/bacon.png',
     '../resources/hamburger.png'
 ];
+var spinSpeed = 1000;
 var Slot = /** @class */ (function () {
     function Slot(stage) {
         var _this = this;
         this.sprite = new PIXI.Sprite();
         this.textureCounter = 0;
         this.updateTexture = function () {
-            var min = 1;
-            var max = exports.ICON_LIST.length;
-            var lastRandom = 0;
-            if (lastRandom === 0) {
-                _this.textureCounter = Math.floor(Math.random() * (max - min + 1)) + min;
-            }
-            else {
-                _this.textureCounter = Math.floor(Math.random() * (max - min)) + min;
-                if (_this.textureCounter >= lastRandom)
-                    _this.textureCounter += 1;
-            }
-            //this.textureCounter = Math.floor(Math.random() * ICON_LIST.length);
-            console.log(_this.textureCounter);
+            var min = 0;
+            var max = exports.ICON_LIST.length - 1;
+            console.log((exports.ICON_LIST.length));
+            _this.textureCounter = Math.floor(Math.random() * (max)) + min;
             _this.sprite.texture = PIXI.loader.resources[exports.ICON_LIST[_this.textureCounter]].texture;
             //if(this.textureCounter === ICON_LIST.length) this.textureCounter = 0;
         };
         stage.addChild(this.sprite);
-        this.sprite.scale.x = 0.5;
-        this.sprite.scale.y = 0.5;
+        this.sprite.width = 52;
+        this.sprite.height = 52;
         this.sprite.anchor.set(0.5, 0.5);
         this.reset();
-        setInterval(this.updateTexture, 200);
+        this.updateTexture();
     }
     Slot.prototype.reset = function () {
         this.sprite.x = exports.canvasWidthHeight / 2;
         this.sprite.y = exports.canvasWidthHeight / 2;
+    };
+    Slot.prototype.spinSlot = function () {
+        //this.updateInterval = setInterval(this.updateTexture, spinSpeed);
+    };
+    Slot.prototype.updateSlotPosition = function (x, y) {
+        this.sprite.x = x;
+        this.sprite.y = y;
+    };
+    Slot.prototype.getTextureCount = function () {
+        return this.textureCounter;
     };
     return Slot;
 }());
