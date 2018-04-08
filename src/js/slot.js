@@ -17,7 +17,7 @@ exports.ICON_LIST = [
     '../resources/bacon.png',
     '../resources/hamburger.png'
 ];
-var spinSpeed = 1000;
+var spinSpeed = 100;
 var Slot = /** @class */ (function () {
     function Slot(stage) {
         var _this = this;
@@ -43,8 +43,12 @@ var Slot = /** @class */ (function () {
         this.sprite.y = exports.canvasWidthHeight / 2;
     };
     Slot.prototype.spinSlot = function () {
+        console.log("i should spin!");
         this.updateId = setInterval(this.updateTexture, spinSpeed);
         //this.updateInterval = setInterval(this.updateTexture, spinSpeed);
+    };
+    Slot.prototype.stopSlot = function () {
+        clearInterval(this.updateId);
     };
     Slot.prototype.updateSlotPosition = function (x, y) {
         this.sprite.x = x;

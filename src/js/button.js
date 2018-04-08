@@ -29,6 +29,10 @@ var Button = /** @class */ (function () {
         this.button.addChild(_text);
         stage.addChild(this.button);
     }
+    Button.prototype.disableButton = function () {
+        this.button.visible = false;
+        this.button.updateTransform();
+    };
     return Button;
 }());
 exports.Button = Button;

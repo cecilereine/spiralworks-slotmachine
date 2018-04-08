@@ -10,6 +10,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var PIXI = __importStar(require("pixi.js"));
 var slot_js_1 = require("./slot.js");
 var button_js_1 = require("./button.js");
+var GAME_STATE;
+(function (GAME_STATE) {
+    GAME_STATE[GAME_STATE["IDLE"] = 0] = "IDLE";
+    GAME_STATE[GAME_STATE["SPINNING"] = 1] = "SPINNING";
+    GAME_STATE[GAME_STATE["GAME_WIN"] = 2] = "GAME_WIN";
+    GAME_STATE[GAME_STATE["GAME_LOSE"] = 3] = "GAME_LOSE";
+})(GAME_STATE || (GAME_STATE = {}));
+var gameState;
 PIXI.loader.add(slot_js_1.ICON_LIST).load(setup);
 var renderer = PIXI.autoDetectRenderer(slot_js_1.canvasWidthHeight, slot_js_1.canvasWidthHeight);
 document.body.appendChild(renderer.view);
@@ -17,6 +25,7 @@ var stage = new PIXI.Container();
 var slots = new Array(0);
 var button;
 function setup() {
+    gameState = GAME_STATE.IDLE;
     var xPos = (slot_js_1.canvasWidthHeight / 2) - 56;
     var yPos = (slot_js_1.canvasWidthHeight / 2) - 56;
     for (var i = 0; i < 3; i++) {
@@ -30,9 +39,34 @@ function setup() {
         yPos += 56;
     }
     button = new button_js_1.Button("SPIN", slot_js_1.canvasWidthHeight / 2, slot_js_1.canvasWidthHeight - 100, stage);
+    button.button.on('pointerdown', onClick);
     requestAnimationFrame(draw);
 }
 function draw() {
     renderer.render(stage);
     requestAnimationFrame(draw);
+}
+function spinSlots() {
+    for (var i = 0; i < slots.length; i++) {
+        slots[i].spinSlot();
+    }
+}
+function stopSlots() {
+    for (var i = 0; i < slots.length; i++) {
+        slots[i].stopSlot();
+    }
+}
+function onClick() {
+    //console.log("i was clicked");
+    if (gameState == GAME_STATE.IDLE) {
+        spinSlots();
+        console.log("CHANGE BUTTON TO STOP");
+        button = new button_js_1.Button("STOP", slot_js_1.canvasWidthHeight / 2, slot_js_1.canvasWidthHeight - 100, stage);
+        button.button.on('pointerdown', onClick);
+        gameState = GAME_STATE.SPINNING;
+    }
+    else if (gameState == GAME_STATE.SPINNING) {
+        stopSlots();
+        console.log("disable diz  pls");
+    }
 }

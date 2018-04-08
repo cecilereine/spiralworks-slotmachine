@@ -34,4 +34,9 @@ export class Button {
     
         stage.addChild(this.button);
     }
+
+    disableButton() {
+        this.button.visible = false;
+        this.button.updateTransform();
+    }
 }

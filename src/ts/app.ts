@@ -3,6 +3,16 @@ import * as PIXI from 'pixi.js'
 import {ICON_LIST, Slot, canvasWidthHeight} from "./slot.js";
 import {Button} from "./button.js";
 
+
+enum GAME_STATE {
+	IDLE,
+	SPINNING,
+	GAME_WIN,
+	GAME_LOSE,
+}
+
+let gameState: GAME_STATE;
+
 PIXI.loader.add(ICON_LIST).load(setup);
 
 const renderer = PIXI.autoDetectRenderer(canvasWidthHeight, canvasWidthHeight);
@@ -10,9 +20,10 @@ document.body.appendChild(renderer.view);
 const stage = new PIXI.Container();
 
 let slots: Array<Slot> = new Array(0);
-let button;
+let button: Button;
 
 function setup() {
+	gameState = GAME_STATE.IDLE;
 
 	let xPos = (canvasWidthHeight/2) - 56;
 	let yPos = (canvasWidthHeight/2) - 56;
@@ -28,13 +39,44 @@ function setup() {
 		}
 		yPos += 56;
 	}
-	
-	button = new Button("SPIN", canvasWidthHeight / 2, canvasWidthHeight - 100, stage);
 
+	button = new Button("SPIN", canvasWidthHeight / 2, canvasWidthHeight - 100, stage);
+	button.button.on('pointerdown', onClick);
 	requestAnimationFrame(draw);
 }
 
 function draw() {
 	renderer.render(stage);
 	requestAnimationFrame(draw);
+}
+
+function spinSlots() {
+	for(let i = 0; i < slots.length; i++) {
+		slots[i].spinSlot();
+	}
+}
+
+function stopSlots() {
+	for(let i = 0; i < slots.length; i++) {
+		slots[i].stopSlot();
+	}
+}
+
+function onClick() {
+	//console.log("i was clicked");
+	if(gameState == GAME_STATE.IDLE) {
+		spinSlots();
+		console.log("CHANGE BUTTON TO STOP");
+
+		button = new Button("STOP", canvasWidthHeight / 2, canvasWidthHeight - 100, stage);
+		button.button.on('pointerdown', onClick);
+
+		gameState = GAME_STATE.SPINNING;
+	}
+	else if(gameState == GAME_STATE.SPINNING) {
+		stopSlots();
+		console.log("disable diz  pls");
+	}
+
+
 }

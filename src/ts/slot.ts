@@ -11,7 +11,7 @@ export const ICON_LIST = [
 	'../resources/hamburger.png'
 ];
 
-let spinSpeed: number = 1000;
+let spinSpeed: number = 100;
 
 export class Slot {
 	private sprite = new PIXI.Sprite();
@@ -37,9 +37,14 @@ export class Slot {
 	}
 
 	spinSlot() {
+		console.log("i should spin!");
 		this.updateId = setInterval(this.updateTexture, spinSpeed);
 		//this.updateInterval = setInterval(this.updateTexture, spinSpeed);
 	}	
+
+	stopSlot() {
+		clearInterval(this.updateId);
+	}
 
 	updateSlotPosition(x: number, y: number) {
 		this.sprite.x = x;
