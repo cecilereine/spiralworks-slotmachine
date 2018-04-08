@@ -1,14 +1,9 @@
 import * as PIXI from 'pixi.js'
 
 
-
-// button.x = canvasWidthHeight / 2;
-// button.y = canvasWidthHeight - 10;
-
 export class Button {
 
     public button = new PIXI.Sprite();
-   // public _text = new PIXI.Text();
 
     constructor(label: string, xPos: number, yPos: number, stage: PIXI.Container) {
         

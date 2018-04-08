@@ -55,6 +55,7 @@
     // "emitDecoratorMetadata": true,         /* Enables experimental support for emitting type metadata for decorators. */
   },
   "files": [
+    "./src/ts/payout.ts",
     "./src/ts/button.ts",
     "./src/ts/slot.ts",
     "./src/ts/app.ts"

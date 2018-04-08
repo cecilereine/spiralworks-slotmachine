@@ -8,10 +8,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var PIXI = __importStar(require("pixi.js"));
-// button.x = canvasWidthHeight / 2;
-// button.y = canvasWidthHeight - 10;
 var Button = /** @class */ (function () {
-    // public _text = new PIXI.Text();
     function Button(label, xPos, yPos, stage) {
         this.button = new PIXI.Sprite();
         this.button = PIXI.Sprite.fromImage('../../resources/grey_button06.png');

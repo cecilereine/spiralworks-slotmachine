@@ -13,12 +13,19 @@ export const ICON_LIST = [
 
 let spinSpeed: number = 100;
 
+export function getWinTextureIndex () : number {
+	let rand = Math.floor(Math.random() * ICON_LIST.length);
+	return rand;
+}
+
 export class Slot {
 	private sprite = new PIXI.Sprite();
 
 	private textureCounter: number = 0;
 
 	private updateId = 0;
+
+	private textureIndices : Array<number> = new Array(0);
 
 	private updateTexture = () => {
 		let min: number = 0;
@@ -31,30 +38,6 @@ export class Slot {
 		
 	}
 
-	reset() {
-		this.sprite.x = canvasWidthHeight / 2;
-		this.sprite.y = canvasWidthHeight / 2;
-	}
-
-	spinSlot() {
-		console.log("i should spin!");
-		this.updateId = setInterval(this.updateTexture, spinSpeed);
-		//this.updateInterval = setInterval(this.updateTexture, spinSpeed);
-	}	
-
-	stopSlot() {
-		clearInterval(this.updateId);
-	}
-
-	updateSlotPosition(x: number, y: number) {
-		this.sprite.x = x;
-		this.sprite.y = y;
-	}
-
-	public getTextureCount():number {
-		return this.textureCounter;
-	}
-
 	constructor(stage: PIXI.Container) {
 		stage.addChild(this.sprite);
 
@@ -64,6 +47,57 @@ export class Slot {
 		this.sprite.anchor.set(0.5, 0.5);
 	 	this.reset();
 
+	 	this.textureIndices = new Array(ICON_LIST.length);
+
+	 	this.populateTextureIndicies();
+
 	 	this.updateTexture();		
 	}
+
+	public reset() {
+		this.sprite.x = canvasWidthHeight / 2;
+		this.sprite.y = canvasWidthHeight / 2;
+	}
+
+	public spinSlot() {
+		console.log("i should spin!");
+		this.updateId = setInterval(this.updateTexture, spinSpeed);		
+	}	
+
+	public stopSlot(textureIndex: number, correctIndex: number) {
+		// -1 value sets slot to any random 
+		clearInterval(this.updateId);	
+
+		if(textureIndex < 0) {			
+			this.updateTexture();
+		}
+		else {
+			this.textureIndices.splice(correctIndex, 1);
+			console.log(this.textureIndices);
+			this.updateTextureManual(textureIndex);
+			alert('you win!');
+		}
+		
+	}
+
+	public updateSlotPosition(x: number, y: number) {
+		this.sprite.x = x;
+		this.sprite.y = y;
+	}
+
+	public getTextureCount():number {
+		return this.textureCounter;
+	}
+
+	private updateTextureManual(textureIndex: number) {
+		this.textureCounter = textureIndex;
+		this.sprite.texture = PIXI.loader.resources[ICON_LIST[this.textureCounter]].texture;
+	}	
+
+	private populateTextureIndicies() {
+		for(let i = 0; i < ICON_LIST.length; i++) {
+			this.textureIndices.push(i);
+		}
+	}
+
 }

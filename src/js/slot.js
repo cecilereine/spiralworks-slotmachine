@@ -18,12 +18,18 @@ exports.ICON_LIST = [
     '../resources/hamburger.png'
 ];
 var spinSpeed = 100;
+function getWinTextureIndex() {
+    var rand = Math.floor(Math.random() * exports.ICON_LIST.length);
+    return rand;
+}
+exports.getWinTextureIndex = getWinTextureIndex;
 var Slot = /** @class */ (function () {
     function Slot(stage) {
         var _this = this;
         this.sprite = new PIXI.Sprite();
         this.textureCounter = 0;
         this.updateId = 0;
+        this.textureIndices = new Array(0);
         this.updateTexture = function () {
             var min = 0;
             var max = exports.ICON_LIST.length - 1;
@@ -36,6 +42,8 @@ var Slot = /** @class */ (function () {
         this.sprite.height = 52;
         this.sprite.anchor.set(0.5, 0.5);
         this.reset();
+        this.textureIndices = new Array(exports.ICON_LIST.length);
+        this.populateTextureIndicies();
         this.updateTexture();
     }
     Slot.prototype.reset = function () {
@@ -45,10 +53,19 @@ var Slot = /** @class */ (function () {
     Slot.prototype.spinSlot = function () {
         console.log("i should spin!");
         this.updateId = setInterval(this.updateTexture, spinSpeed);
-        //this.updateInterval = setInterval(this.updateTexture, spinSpeed);
     };
-    Slot.prototype.stopSlot = function () {
+    Slot.prototype.stopSlot = function (textureIndex, correctIndex) {
+        // -1 value sets slot to any random 
         clearInterval(this.updateId);
+        if (textureIndex < 0) {
+            this.updateTexture();
+        }
+        else {
+            this.textureIndices.splice(correctIndex, 1);
+            console.log(this.textureIndices);
+            this.updateTextureManual(textureIndex);
+            alert('you win!');
+        }
     };
     Slot.prototype.updateSlotPosition = function (x, y) {
         this.sprite.x = x;
@@ -56,6 +73,15 @@ var Slot = /** @class */ (function () {
     };
     Slot.prototype.getTextureCount = function () {
         return this.textureCounter;
+    };
+    Slot.prototype.updateTextureManual = function (textureIndex) {
+        this.textureCounter = textureIndex;
+        this.sprite.texture = PIXI.loader.resources[exports.ICON_LIST[this.textureCounter]].texture;
+    };
+    Slot.prototype.populateTextureIndicies = function () {
+        for (var i = 0; i < exports.ICON_LIST.length; i++) {
+            this.textureIndices.push(i);
+        }
     };
     return Slot;
 }());
