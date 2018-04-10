@@ -32,6 +32,7 @@ export class Button {
 
     disableButton() {
         this.button.visible = false;
-        this.button.updateTransform();
+        //this.button.alpha = 0;
+        //this.button.updateTransform();
     }
 }

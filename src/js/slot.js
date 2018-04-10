@@ -15,7 +15,11 @@ exports.ICON_LIST = [
     '../resources/chocolate.png',
     '../resources/french-fries.png',
     '../resources/bacon.png',
-    '../resources/hamburger.png'
+    '../resources/hamburger.png',
+    '../resources/broccoli.png',
+    '../resources/eggplant.png',
+    '../resources/milk.png',
+    '../resources/onigiri.png',
 ];
 var spinSpeed = 100;
 function getWinTextureIndex() {
@@ -51,7 +55,6 @@ var Slot = /** @class */ (function () {
         this.sprite.y = exports.canvasWidthHeight / 2;
     };
     Slot.prototype.spinSlot = function () {
-        console.log("i should spin!");
         this.updateId = setInterval(this.updateTexture, spinSpeed);
     };
     Slot.prototype.stopSlot = function (textureIndex, correctIndex) {
@@ -62,9 +65,7 @@ var Slot = /** @class */ (function () {
         }
         else {
             this.textureIndices.splice(correctIndex, 1);
-            console.log(this.textureIndices);
             this.updateTextureManual(textureIndex);
-            alert('you win!');
         }
     };
     Slot.prototype.updateSlotPosition = function (x, y) {
@@ -79,6 +80,7 @@ var Slot = /** @class */ (function () {
         this.sprite.texture = PIXI.loader.resources[exports.ICON_LIST[this.textureCounter]].texture;
     };
     Slot.prototype.populateTextureIndicies = function () {
+        this.textureIndices.length = 0;
         for (var i = 0; i < exports.ICON_LIST.length; i++) {
             this.textureIndices.push(i);
         }

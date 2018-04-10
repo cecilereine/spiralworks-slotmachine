@@ -1,8 +1,12 @@
 import * as PIXI from 'pixi.js'
 
-import {ICON_LIST, Slot, canvasWidthHeight, getWinTextureIndex} from "./slot.js";
+import {ICON_LIST, Slot, canvasWidthHeight, 
+	getWinTextureIndex} from "./slot.js";
 import {Button} from "./button.js";
-import {paylines, genRandPaylineIndex} from "./payout.js";
+import {paylines, genRandPaylineIndex, 
+	genWinScenario, triggerWinState,
+	triggerLoseState} from "./payout.js";
+
 
 enum GAME_STATE {
 	IDLE,
@@ -10,6 +14,8 @@ enum GAME_STATE {
 	GAME_WIN,
 	GAME_LOSE,
 }
+
+let globalID;
 
 let gameState: GAME_STATE;
 
@@ -34,7 +40,7 @@ function setup() {
 
 function draw() {
 	renderer.render(stage);
-	requestAnimationFrame(draw);
+	globalID = requestAnimationFrame(draw);
 }
 
 function spinSlots() {
@@ -46,6 +52,8 @@ function spinSlots() {
 function createGrid() {
 	let xPos = (canvasWidthHeight/2) - 56;
 	let yPos = (canvasWidthHeight/2) - 56;
+
+	// build a grid per column
 	for(let i = 0; i < 3; i++)
 	{
 		xPos = (canvasWidthHeight/2) - 56;
@@ -65,22 +73,31 @@ function stopSlots() {
 		let temp = genRandPaylineIndex();
 		let winIndex = getWinTextureIndex();
 
+		// stop slots via a win scenario 
 		for(let i = 0; i < slots.length; i++) {
-			//slots[i].stopSlots()
 			if(paylines[temp][i] == 1) {
 				slots[i].stopSlot(winIndex, winIndex);
 			} else {
 				slots[i].stopSlot(-1, winIndex);				
 			}		
-		}
+		}		
+
+		setTimeout(function() {triggerWinState(stage);}, 1000); 
+	}
+	else if(gameState == GAME_STATE.GAME_LOSE) {
+		for(let i = 0; i < slots.length; i++) {
+			slots[i].stopSlot(-1, -1);
+		}		
+		setTimeout(triggerLoseState, 1000);
 	}
 }
 
 function onClick() {
-	//console.log("i was clicked");
 	if(gameState == GAME_STATE.IDLE) {
 		spinSlots();
 		console.log("CHANGE BUTTON TO STOP");
+
+		button.disableButton();
 
 		button = new Button("STOP", canvasWidthHeight / 2, canvasWidthHeight - 100, stage);
 		button.button.on('pointerdown', onClick);
@@ -88,7 +105,15 @@ function onClick() {
 		gameState = GAME_STATE.SPINNING;
 	}
 	else if(gameState == GAME_STATE.SPINNING) {
-		gameState = GAME_STATE.GAME_WIN;
+		button.disableButton();
+		
+		if(genWinScenario()) {
+			gameState = GAME_STATE.GAME_WIN;
+		}
+		else {
+			gameState = GAME_STATE.GAME_LOSE;
+		}	
+
 		stopSlots();
 	}
 }

@@ -1,4 +1,8 @@
+import * as PIXI from 'pixi.js'
+import {renderBoxScreen} from "./results.js";
 
+
+let winRate:number = 50;	// win/lose at 50:50
 
 let pattern = [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ];
 
@@ -16,9 +20,29 @@ export let paylines = [
 
 export function genRandPaylineIndex() : number {
 	let random = Math.floor(Math.random() * (paylines.length));
-	// console.log(random);
-	// for(let i = 0; i < paylines[random].length; i++) {
-	// 	console.log(i + " " + paylines[random][i]);
-	// }
 	return random;
+}
+
+export function genWinScenario() : boolean {
+	let random = Math.floor(Math.random() * 100) + 1;
+
+	if(random <= winRate) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+
+export function triggerWinState(stage : PIXI.Container) {
+	//stage.destroy(true);
+	renderBoxScreen(stage);
+	//stage = null;
+}
+
+
+export function triggerLoseState() {
+	alert('oops! try again!');
+	location.reload();
 }

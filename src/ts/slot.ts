@@ -8,7 +8,11 @@ export const ICON_LIST = [
 	'../resources/chocolate.png',
 	'../resources/french-fries.png',
 	'../resources/bacon.png',	
-	'../resources/hamburger.png'
+	'../resources/hamburger.png',
+	'../resources/broccoli.png',
+	'../resources/eggplant.png',
+	'../resources/milk.png',
+	'../resources/onigiri.png',
 ];
 
 let spinSpeed: number = 100;
@@ -60,7 +64,6 @@ export class Slot {
 	}
 
 	public spinSlot() {
-		console.log("i should spin!");
 		this.updateId = setInterval(this.updateTexture, spinSpeed);		
 	}	
 
@@ -68,14 +71,12 @@ export class Slot {
 		// -1 value sets slot to any random 
 		clearInterval(this.updateId);	
 
-		if(textureIndex < 0) {			
+		if(textureIndex < 0) {		
 			this.updateTexture();
 		}
 		else {
 			this.textureIndices.splice(correctIndex, 1);
-			console.log(this.textureIndices);
 			this.updateTextureManual(textureIndex);
-			alert('you win!');
 		}
 		
 	}
@@ -95,6 +96,7 @@ export class Slot {
 	}	
 
 	private populateTextureIndicies() {
+		this.textureIndices.length = 0;
 		for(let i = 0; i < ICON_LIST.length; i++) {
 			this.textureIndices.push(i);
 		}

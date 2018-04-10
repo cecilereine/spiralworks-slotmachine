@@ -28,7 +28,8 @@ var Button = /** @class */ (function () {
     }
     Button.prototype.disableButton = function () {
         this.button.visible = false;
-        this.button.updateTransform();
+        //this.button.alpha = 0;
+        //this.button.updateTransform();
     };
     return Button;
 }());
