@@ -56,6 +56,17 @@ function initRewardBoxes(bg) {
 function onClick(index) {
     console.log(index + " clicked");
     rewardBoxes[index].texture = PIXI.Texture.fromImage(exports.BOX_SPRITES[1]);
+    setTimeout(function () { alertWin(index); }, 1000);
+}
+function alertWin(index) {
+    var winningBox = Math.floor(Math.random() * rewardBoxes.length);
+    if (winningBox == index) {
+        alert('you win jackpot prize!');
+    }
+    else {
+        alert('you win a prize!');
+    }
+    location.reload();
 }
 function renderBoxScreen(stage) {
     init();
